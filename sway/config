@@ -73,7 +73,7 @@ input * {
     bindsym $mod+Shift+c reload
 
     # Sai do sway (encerra sua sessão Wayland)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'Você pressionou o atalho de sair. Deseja realmente sair do sway?' 'swaymsg exit'
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'Você pressionou o atalho de sair. Deseja realmente sair do sway?' -b 'Sim, sair' 'swaymsg exit'
 #
 # Movimentação:
 #
