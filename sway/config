@@ -1,0 +1,235 @@
+# Configuração do Sway - Michel
+# Rodando em Arch Linux - Julho de 2025
+
+# Variáveis de configuração
+# Modificador principal (geralmente a tecla Super/Windows)
+# Você pode alterar para Mod1 (Alt) se preferir
+# ou Mod3 (Menu) se estiver disponível no seu teclado.
+# Mod4 é a tecla Super/Windows na maioria dos teclados modernos.
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Terminal foot
+set $term foot
+
+# Usando wmenu como padrão além do drun
+set $menu wmenu-run
+
+# Lançador alternativo
+# Você pode usar wofi, rofi, dmenu, etc.
+# Aqui usamos wofi como exemplo, mas você pode substituir por outro lançador
+# Certifique-se de que o wofi está instalado e configurado corretamente
+bindsym $mod+q exec wofi --show drun --style ~/.config/wofi/style.css
+
+# Papel de parede padrão
+output * bg /home/michel/Imagens/wall.jpg fill
+# Executa o swaybg para definir o papel de parede
+# O swaybg é um utilitário para definir o papel de parede no Sway
+# Você pode substituir o caminho da imagem pelo seu próprio papel de parede
+# O parâmetro -m fill ajusta a imagem para preencher a tela
+exec_always swaybg -i /home/michel/Imagens/wall.jpg -m fill
+
+# Configuração de saída de vídeo
+# Ajuste os nomes das saídas conforme necessário
+# Você pode obter os nomes das suas saídas executando: swaymsg -t get_outputs
+output HDMI-A-3 transform 270
+font pango:monospace 10
+
+# Configuração de perfil de teclado para ABNT2
+# Você pode ajustar o layout e variante conforme necessário
+# Para ABNT2, use 'br' como layout e 'abnt2' como variante
+# Se tiver problemas com o layout, verifique se o pacote xkeyboard-config está instalado
+input * {
+    xkb_layout br
+    xkb_variant abnt2
+}
+
+# Atalhos de teclado:
+    # Abre o terminal
+    # Você pode substituir foot por outro terminal, como alacritty, gnome-terminal, etc.
+    # Se quiser usar o foot, certifique-se de que está instalado.
+    bindsym $mod+Return exec $term
+
+    # Fecha a janela em foco
+    bindsym $mod+Shift+q kill
+
+    # Abre o lançador de aplicativos padrão do Sway
+    # Você pode substituir wmenu-run por outro lançador, como dmenu, rofi, etc.
+    # Se quiser usar o wmenu, certifique-se de que está instalado.
+    # O wmenu é um lançador simples e leve que funciona bem com o Sway
+    bindsym $mod+d exec $menu
+
+    # Arraste janelas flutuantes segurando $mod e o botão esquerdo do mouse.
+    # Redimensione-as com o botão direito do mouse + $mod.
+    # Apesar do nome, também funciona para janelas não flutuantes.
+    # Altere de normal para inverse para usar o botão esquerdo do mouse para redimensionar
+    # e o botão direito para arrastar.
+    floating_modifier $mod normal
+
+    # Recarrega o arquivo de configuração
+    bindsym $mod+Shift+c reload
+
+    # Sai do sway (encerra sua sessão Wayland)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'Você pressionou o atalho de sair. Deseja realmente sair do sway?' 'swaymsg exit'
+#
+# Movimentação:
+#
+    # Move o foco entre as janelas
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Ou use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move a janela em foco com o mesmo atalho, mas adicionando Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # O mesmo, com as teclas de seta
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+
+#
+# Áreas de trabalho:
+#
+    # Troca para a área de trabalho
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
+    # Move o container em foco para a área de trabalho
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
+    # Nota: áreas de trabalho podem ter qualquer nome, não apenas números.
+    # Usamos 1-10 como padrão.
+#
+# Layout:
+#
+    # Você pode "dividir" o objeto atual em foco com
+    # $mod+b ou $mod+v, para divisões horizontal e vertical respectivamente.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Alterna o container atual entre diferentes estilos de layout
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Deixa o foco atual em tela cheia
+    bindsym $mod+f fullscreen
+
+    # Alterna o foco atual entre modo mosaico e flutuante
+    bindsym $mod+Shift+space floating toggle
+
+    # Alterna o foco entre área mosaico e área flutuante
+    bindsym $mod+space focus mode_toggle
+
+    # Move o foco para o container pai
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # O Sway tem um "scratchpad", que é uma área para guardar janelas.
+    # Você pode enviar janelas para lá e recuperá-las depois.
+    # Move a janela em foco para o scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Mostra a próxima janela do scratchpad ou esconde a janela do scratchpad em foco.
+    # Se houver várias janelas no scratchpad, este comando alterna entre elas.
+    bindsym $mod+minus scratchpad show
+#
+# Redimensionando containers:
+#
+mode "resize" {
+    # esquerda diminui a largura do container
+    # direita aumenta a largura do container
+    # cima diminui a altura do container
+    # baixo aumenta a altura do container
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # O mesmo, com as teclas de seta
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Retorna ao modo padrão
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+#
+# Utilitários:
+#
+    # Teclas especiais para ajustar volume via PulseAudio
+    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+    bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
+    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+    bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+    # Teclas especiais para ajustar brilho via brightnessctl
+    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+    # Tecla especial para capturar tela com grim
+    bindsym Print exec grim
+
+#
+# Barra de status:
+#
+# Leia `man 5 sway-bar` para mais informações sobre esta seção. Configuração padrão:
+#bar {
+#    position top
+#    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+#    colors {
+#        statusline #ffffff
+#        background #323232
+#        inactive_workspace #32323200 #32323200 #5c5c5c
+#    }
+#}
+# Configuração personalizada por i3status:
+bar {
+    status_command env -i /usr/bin/i3status
+    position top
+    tray_output primary
+    font pango:monospace 10
+}
+
+# Configura o screenshot com grim e wl-copy
+# O grim captura a tela e o wl-copy copia para a área de transferência
+# Você pode usar slurp para selecionar uma área específica da tela
+# Se não quiser usar slurp, remova-o e use apenas grim
+# Para capturar a tela inteira, use: bindsym $mod+Shift+s exec grim - | wl-copy
+# Para capturar uma área selecionada, use: bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+# Se preferir capturar a tela inteira sem seleção, use:
+# bindsym $mod+Shift+s exec grim - | wl-copy
+# Se quiser capturar uma área selecionada, use:
+bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+
+# Inclui configurações adicionais do diretório
+include /etc/sway/config.d/*
