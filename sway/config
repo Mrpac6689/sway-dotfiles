@@ -16,13 +16,13 @@ set $right l
 set $term foot
 
 # Usando wmenu como padrão além do drun
-set $menu wmenu-run
+set $menu wofi --show drun --style ~/.config/wofi/style.css
 
 # Lançador alternativo
 # Você pode usar wofi, rofi, dmenu, etc.
 # Aqui usamos wofi como exemplo, mas você pode substituir por outro lançador
 # Certifique-se de que o wofi está instalado e configurado corretamente
-bindsym $mod+q exec wofi --show drun --style ~/.config/wofi/style.css
+bindsym $mod+q exec wmenu-run
 
 # Papel de parede padrão
 output * bg /home/michel/Imagens/wall.jpg fill
@@ -74,6 +74,7 @@ input * {
 
     # Sai do sway (encerra sua sessão Wayland)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'Você pressionou o atalho de sair. Deseja realmente sair do sway?' -b 'Sim, sair' 'swaymsg exit'
+
 #
 # Movimentação:
 #
@@ -213,12 +214,29 @@ bindsym $mod+r mode "resize"
 #    }
 #}
 # Configuração personalizada por i3status:
-bar {
-    status_command env -i /usr/bin/i3status
-    position top
-    tray_output primary
-    font pango:monospace 10
-}
+#bar {
+#    status_command env -i /usr/bin/i3status
+#    position top
+#    tray_output primary
+#    font pango:monospace 10
+#    colors {
+#        background #1e1e2e
+#        statusline #cdd6f4
+#        separator  #44475a
+#        focused_workspace  #89b4fa #89b4fa #1e1e2e
+#        active_workspace   #313244 #313244 #cdd6f4
+#        inactive_workspace #1e1e2e #1e1e2e #7f849c
+#        urgent_workspace   #f38ba8 #f38ba8 #1e1e2e
+#    }
+#}
+
+# Incializa o Waybar e o applet de NetworkManager
+exec waybar
+exec nm-applet --indicator
+
+
+# Inclui tema escuro ao GTK
+exec_always export GTK_THEME=Adwaita-dark
 
 # Configura o screenshot com grim e wl-copy
 # O grim captura a tela e o wl-copy copia para a área de transferência
